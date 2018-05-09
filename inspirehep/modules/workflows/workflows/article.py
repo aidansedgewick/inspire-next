@@ -91,6 +91,7 @@ from inspirehep.modules.workflows.tasks.merging import (
     merge_articles,
 )
 from inspirehep.modules.workflows.tasks.upload import store_record, set_schema
+
 from inspirehep.modules.workflows.tasks.submission import (
     close_ticket,
     create_ticket,
@@ -107,6 +108,9 @@ from inspirehep.modules.literaturesuggest.tasks import (
     new_ticket_context,
     curation_ticket_context,
 )
+
+from inspirehep.modules.workflows.tasks.makejson import makejson
+
 
 
 NOTIFY_SUBMISSION = [
@@ -144,7 +148,7 @@ ENHANCE_RECORD = [
         [
             populate_arxiv_document,
             arxiv_package_download,
-            arxiv_plot_extract,
+            #arxiv_plot_extract,
             arxiv_derive_inspire_categories,
             arxiv_author_list("authorlist2marcxml.xsl"),
         ]
@@ -460,6 +464,12 @@ PRE_PROCESSING = [
 ]
 
 
+MAKE_JSON = [
+    # Save a JSON with useful info...
+    makejson
+]
+
+
 class Article(object):
     """Article ingestion workflow for Literature collection."""
     name = "HEP"
@@ -467,24 +477,24 @@ class Article(object):
 
     workflow = (
         PRE_PROCESSING +
-        NOTIFY_IF_SUBMISSION +
-        MARK_IF_MATCH_IN_HOLDINGPEN +
-        CHECK_IS_UPDATE +
-        STOP_IF_EXISTING_SUBMISSION +
-        CHECK_AUTO_APPROVE +
-        PROCESS_HOLDINGPEN_MATCHES +
+        #NOTIFY_IF_SUBMISSION +
+        #MARK_IF_MATCH_IN_HOLDINGPEN +
+        #CHECK_IS_UPDATE +
+        #STOP_IF_EXISTING_SUBMISSION +
+        #CHECK_AUTO_APPROVE +
+        #PROCESS_HOLDINGPEN_MATCHES +
         ENHANCE_RECORD +
-        HALT_FOR_APPROVAL_IF_NEW_OR_STOP_IF_NOT_RELEVANT +
+        #HALT_FOR_APPROVAL_IF_NEW_OR_STOP_IF_NOT_RELEVANT +
         [
             IF_ELSE(
                 is_record_accepted,
                 (
-                    POSTENHANCE_RECORD +
-                    STORE_RECORD +
-                    SEND_TO_LEGACY +
-                    WAIT_FOR_LEGACY_WEBCOLL +
-                    NOTIFY_ACCEPTED +
-                    NOTIFY_CURATOR_IF_CORE
+                    #POSTENHANCE_RECORD +
+                    STORE_RECORD #+
+                    #SEND_TO_LEGACY +
+                    #WAIT_FOR_LEGACY_WEBCOLL +
+                    #NOTIFY_ACCEPTED +
+                    #NOTIFY_CURATOR_IF_CORE
                 ),
                 NOTIFY_NOT_ACCEPTED,
             ),
@@ -492,5 +502,6 @@ class Article(object):
                 is_submission,
                 close_ticket(ticket_id_key="ticket_id"),
             )
-        ]
+        ] +
+        MAKE_JSON
     )
