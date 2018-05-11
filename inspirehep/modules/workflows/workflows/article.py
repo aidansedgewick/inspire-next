@@ -162,19 +162,19 @@ ENHANCE_RECORD = [
     refextract,
     extract_journal_info,
     populate_journal_coverage,
-    classify_paper(
-        only_core_tags=False,
-        spires=True,
-        with_author_keywords=True,
-    ),
-    filter_core_keywords,
-    guess_categories,
-    IF(
-        is_experimental_paper,
-        guess_experiments,
-    ),
-    guess_keywords,
-    guess_coreness,
+    #classify_paper(
+    #    only_core_tags=False,
+    #    spires=True,
+    #    with_author_keywords=True,
+    #),
+    #filter_core_keywords,
+    #guess_categories,
+    #IF(
+    #    is_experimental_paper,
+    #    guess_experiments,
+    #),
+    #guess_keywords,
+    #guess_coreness,
 ]
 
 
@@ -485,23 +485,5 @@ class Article(object):
         #PROCESS_HOLDINGPEN_MATCHES +
         ENHANCE_RECORD +
         #HALT_FOR_APPROVAL_IF_NEW_OR_STOP_IF_NOT_RELEVANT +
-        [
-            IF_ELSE(
-                is_record_accepted,
-                (
-                    #POSTENHANCE_RECORD +
-                    STORE_RECORD #+
-                    #SEND_TO_LEGACY +
-                    #WAIT_FOR_LEGACY_WEBCOLL +
-                    #NOTIFY_ACCEPTED +
-                    #NOTIFY_CURATOR_IF_CORE
-                ),
-                NOTIFY_NOT_ACCEPTED,
-            ),
-            IF(
-                is_submission,
-                close_ticket(ticket_id_key="ticket_id"),
-            )
-        ] +
         MAKE_JSON
     )
