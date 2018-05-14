@@ -12,6 +12,6 @@ for start, stop in zip(dates[:-1], dates[1:]):
 
     from_date = "from_date='%s'" % start
     until_date = "until_date='%s'" % stop
-    #command = schedule_crawl("arXiv", "article", sets="physics,math,cs,econ,eess,q-bio,q-fin,stat",from_date="%s", until_date="%s" %(start,stop) )
+    schedule_crawl("arXiv", "article", sets="physics,math,cs,econ,eess,q-bio,q-fin,stat",from_date="%s", until_date="%s" %(start,stop) )
 
     print from_date, until_date
