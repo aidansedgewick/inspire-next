@@ -1,6 +1,6 @@
 import datetime 
 from inspire_crawler.tasks import schedule_crawl
-from flask import Flask
+from flask import Flask, current_app()
 
 today = datetime.datetime.today()
 
@@ -17,9 +17,7 @@ with app.app_context():
 
         from_date = "from_date='%s'" % start
         until_date = "until_date='%s'" % stop
-
-        
-        
-        schedule_crawl("arXiv", "article", sets=list_of_sets,from_date="%s" %start, until_date="%s" %stop )
+       
+        schedule_crawl("arXiv", "article", sets="physics,math,cs,econ,eess,q-bio,q-fin,stat",from_date="%s" %start, until_date="%s" %stop )
 
         print from_date, until_date
