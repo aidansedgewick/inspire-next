@@ -1,6 +1,6 @@
 import datetime 
 from inspire_crawler.tasks import schedule_crawl
-from flask import Flask, current_app()
+from flask import Flask, current_app
 
 today = datetime.datetime.today()
 
