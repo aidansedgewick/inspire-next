@@ -4,8 +4,7 @@ from flask import Flask, current_app
 
 today = datetime.datetime.today()
 
-delta_days,Ndays = 1,100  #Number of days to harvest at once.
-Ndays = 100
+delta_days,Ndays = 2,14  #Number of days to harvest at once.
 
 dates = [ str( today-datetime.timedelta(days=x) ).split()[0] for x in xrange(0,Ndays,delta_days) ]
 
